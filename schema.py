@@ -1,8 +1,8 @@
-from datetime import datetime
 from http.client import HTTPException
 from typing import List
 from pydantic import BaseModel, validator
 import re
+from datetime import date
 
 
 class student(BaseModel):
@@ -22,7 +22,9 @@ class student(BaseModel):
 
     @validator('enrollment_year')
     def check_enrollment_year(cls, v):
-        if v < 2022:
+        today_date = date.today()
+        current_year = int (today_date. strftime("%Y"))
+        if v < current_year:
             raise HTTPException(status_code=400, detail="Invalid Enrollment Year")
         else:
             return v

@@ -17,11 +17,15 @@ class StudentService(AbstractStudentService):
 
     def get_student_by_major(self, db: Session, major: str):
         response = db.query(ModelStudent).filter(ModelStudent.major == major).all()
-        if response is not None:
+        if response:
             result = []
             for entry in response:
                 result_object = SchemaStudent.from_orm(entry)
-        result.append(result_object)
+            result.append(result_object)
+
+        else:
+            result = None
+
         return result
 
     def add_new_student(self, db: Session, studentx: SchemaStudent) -> object:
