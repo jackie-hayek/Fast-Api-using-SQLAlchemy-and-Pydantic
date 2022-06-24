@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod, ABCMeta
-from models import Student as StudentsModel
+from models.models import Student as StudentsModel
 
 
 class AbstractStudentRepository(ABC):

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod, ABCMeta
 
-from models import Student as StudentsModel, UpdateStudentModel
+from models.models import Student as StudentsModel, UpdateStudentModel
 
 
 class AbstractStudentService(ABC):

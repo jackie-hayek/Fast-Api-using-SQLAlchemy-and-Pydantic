@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status
-from models import Student as StudentsModel
-from models import *
+from models.models import Student as StudentsModel
+from models.models import *
 import logging
 
 from BLL.student_service import StudentService
@@ -15,9 +15,9 @@ async def add_student(student: StudentsModel):
     return StudentService().add_student(student)
 
 
-@router.get("/student()", response_model=list[StudentsModel], status_code=200)
+@router.get("/student()", status_code=200)
 async def get_students():
-    return StudentService().get_students()
+    return await StudentService().get_students()
 
 
 @router.get("/student/{id}", response_model=list[StudentsModel], status_code=status.HTTP_200_OK)

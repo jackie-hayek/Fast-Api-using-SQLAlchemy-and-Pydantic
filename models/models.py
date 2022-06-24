@@ -1,4 +1,3 @@
-import uuid
 from http.client import HTTPException
 from typing import Optional
 from pydantic import BaseModel, validator, EmailStr
@@ -7,7 +6,6 @@ from datetime import date
 
 
 class Student(BaseModel):
-    _id_: uuid.uuid4()
     first_name: str
     last_name: str
     enrollment_year: int
