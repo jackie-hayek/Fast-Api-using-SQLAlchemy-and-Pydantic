@@ -1,11 +1,11 @@
 from fastapi import HTTPException
 
-from DAL.abstract_student_repos import AbstractStudentRepository
+from DAL.abstract_student_repository import AbstractStudentRepository
 import logging
 
 from BLL.abstract_student_service import AbstractStudentService
-from models.models import Student as StudentsModel, UpdateStudentModel
-from DAL.student_repos import StudentRepository
+from models.student_model import Student as StudentsModel
+from DAL.student_repository import StudentRepository
 
 
 class StudentService(AbstractStudentService):
@@ -23,12 +23,12 @@ class StudentService(AbstractStudentService):
         logging.info('Students list returned')
         return students
 
-    def get_student_by_id(self, id: str):
-        student = self.student_repository.get_student_by_id(id)
+    def get_student_by_id(self, student_id: str):
+        student = self.student_repository.get_student_by_id(student_id)
         if not student:
             logging.error('Student with the specified id is not found')
             raise HTTPException(status_code=404, detail="Student not found")
-        logging.info('Student with the specified major is returned')
+        logging.info('Student with the specified id is returned')
         return student
 
     def delete_student_by_id(self, id: str):
@@ -39,7 +39,7 @@ class StudentService(AbstractStudentService):
         logging.info('Student deleted')
         return deleted_student
 
-    def update_student(self, id: str, student: UpdateStudentModel):
+    def update_student(self, id: str, student: StudentsModel):
         updated_student = self.student_repository.update_student_data(id, student)
         if not updated_student:
             logging.error('Student not found')

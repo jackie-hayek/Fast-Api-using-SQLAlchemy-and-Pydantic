@@ -1,11 +1,15 @@
+import uuid
 from http.client import HTTPException
 from typing import Optional
-from pydantic import BaseModel, validator, EmailStr
+
+from pydantic import validator, EmailStr, BaseModel
 import re
 from datetime import date
+from beanie import Document
 
 
-class Student(BaseModel):
+class Student(Document):
+    student_id: str = str(uuid.uuid4())
     first_name: str
     last_name: str
     enrollment_year: int
@@ -29,27 +33,33 @@ class Student(BaseModel):
         else:
             return v
 
+    class Settings:
+        name = "student"
+
     class Config:
         orm_mode = True
+        arbitrary_types_allowed = True
 
 
 class UpdateStudentModel(BaseModel):
     first_name: Optional[str]
     last_name: Optional[str]
-    enrollment_year: Optional[int]
-    major: Optional[str]
     email: Optional[EmailStr]
+    major: Optional[str]
+    enrollment_year: Optional[int]
 
-    class Collection:
+
+    @validator('enrollment_year')
+    def check_enrollment_year(cls, v):
+        today_date = date.today()
+        current_year = int(today_date.strftime("%Y"))
+        if v < current_year:
+            raise HTTPException(status_code=400, detail="Invalid Enrollment Year")
+        else:
+            return v
+    class Settings:
         name = "student"
 
     class Config:
-        schema_extra = {
-            "example": {
-                "first_name": "Abdulazeez",
-                "last_name": "Abdulazeez",
-                "enrollment_year": 2022,
-                "major": "Water resources and environmental engineering",
-                "email": "abdul@school.com"
-            }
-        }
+        orm_mode = True
+        arbitrary_types_allowed = True

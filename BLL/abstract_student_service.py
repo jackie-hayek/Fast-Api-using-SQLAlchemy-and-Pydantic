@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod, ABCMeta
 
-from models.models import Student as StudentsModel, UpdateStudentModel
+from models.student_model import Student as StudentsModel
 
 
 class AbstractStudentService(ABC):
@@ -15,14 +15,14 @@ class AbstractStudentService(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_student_by_id(self, id: str):
+    def get_student_by_id(self, student_id: str):
         raise NotImplementedError
 
     @abstractmethod
-    def delete_student_by_id(self, id: str):
+    def delete_student_by_id(self, student_id: str):
         raise NotImplementedError
 
     @abstractmethod
-    def update_student(self, id: str, student: UpdateStudentModel):
+    def update_student(self, student_id: str, student: StudentsModel):
         raise NotImplementedError
 

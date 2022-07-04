@@ -1,11 +1,11 @@
-import pymongo
+from beanie import init_beanie
+from motor.motor_asyncio import AsyncIOMotorClient
 
-Mongo_Database = "mongodb://localhost:27017"
+from models.student_model import Student
 
-client = pymongo.MongoClient("mongodb://localhost:27017/")
-database = client["FastAPI"]
-student_collection = database["student"]
-
+Mongo_Database = "mongodb://localhost:27017/FastAPI"
 
 
-
+async def initiate_database():
+    client = AsyncIOMotorClient(Mongo_Database)
+    await init_beanie(database=client.FastAPI, document_models=[Student])
