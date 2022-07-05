@@ -1,17 +1,16 @@
 from fastapi import HTTPException
 
-from DAL.abstract_student_repository import AbstractStudentRepository
 import logging
 
 from BLL.abstract_student_service import AbstractStudentService
+from DAL.abstract_student_repository import AbstractStudentRepository
 from models.student_model import Student as StudentsModel
-from DAL.student_repository import StudentRepository
 
 
 class StudentService(AbstractStudentService):
 
-    def __init__(self):
-        self.student_repository = AbstractStudentRepository.register(StudentRepository)()
+    def __init__(self, student_repository: AbstractStudentRepository):
+        self.student_repository = student_repository
 
     def add_student(self, student: StudentsModel):
         new_student = self.student_repository.add_new_student(student)

@@ -1,16 +1,15 @@
 from fastapi import APIRouter, status
 
-from BLL.abstract_student_service import AbstractStudentService
+from containers import Container
 from models.student_model import Student as StudentsModel, UpdateStudentModel
 import logging
 
-from BLL.student_service import StudentService
 
 router = APIRouter()
 
 logging.basicConfig(level=logging.DEBUG)
 
-student_service = AbstractStudentService.register(StudentService)()
+student_service = Container.student_service()
 
 
 @router.post("/student()", response_model=StudentsModel, status_code=status.HTTP_201_CREATED)
